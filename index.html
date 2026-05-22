@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>✨ Profile - Thanh ✨</title>
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&family=Pacifico&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            position: relative;
+            overflow-x: hidden;
+            cursor: crosshair;
+            /* Nền sẽ được set bằng JS random ảnh anime */
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            transition: background-image 0.5s ease;
+        }
+
+        /* Lớp phủ tối để chữ nổi */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(3px);
+            z-index: 0;
+        }
+
+        /* Card chính */
+        .card {
+            position: relative;
+            z-index: 10;
+            max-width: 550px;
+            width: 100%;
+            background: rgba(15, 20, 45, 0.7);
+            backdrop-filter: blur(16px);
+            border-radius: 70px;
+            padding: 2rem 2rem 2.5rem;
+            box-shadow: 0 30px 50px rgba(0,0,0,0.6), 0 0 0 2px rgba(255,255,200,0.2), 0 0 0 6px rgba(255,105,180,0.3);
+            transition: transform 0.3s, box-shadow 0.4s;
+            text-align: center;
+            border: 1px solid rgba(255,220,150,0.5);
+            animation: floatCard 4s ease-in-out infinite;
+        }
+        .card:hover {
+            transform: translateY(-12px) scale(1.01);
+            box-shadow: 0 40px 65px rgba(0,0,0,0.7), 0 0 0 3px #ffb347, 0 0 0 9px #ff6ac6;
+        }
+        @keyframes floatCard {
+            0% { transform: translateY(0px);}
+            50% { transform: translateY(-10px);}
+            100% { transform: translateY(0px);}
+        }
+
+        /* Avatar vòng tròn rực lửa */
+        .avatar {
+            width: 150px;
+            height: 150px;
+            margin: 0 auto 20px;
+            background: linear-gradient(135deg, #ff4d6d, #ffb347, #3a86ff);
+            border-radius: 50%;
+            padding: 5px;
+            animation: rotateBorder 4s linear infinite, pulseGlow 1.8s infinite alternate;
+            box-shadow: 0 0 30px #ff4d6d;
+        }
+        .avatar-inner {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: url('https://api.dicebear.com/7.x/avataaars/svg?seed=Thanh&backgroundColor=ffccdd&hairColor=purple&accessories=round') center/cover;
+            background-color: #2b1e3f;
+            background-blend-mode: overlay;
+            border: 3px solid white;
+        }
+        @keyframes rotateBorder {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        @keyframes pulseGlow {
+            0% { box-shadow: 0 0 10px #ff4d6d, 0 0 20px #ffaa44; }
+            100% { box-shadow: 0 0 35px #ff88aa, 0 0 50px #ffcc88; }
+        }
+
+        h1 {
+            font-family: 'Pacifico', cursive;
+            font-size: 3rem;
+            background: linear-gradient(45deg, #FFD966, #FF6AC6, #6EADFF);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: shine 3s linear infinite;
+            letter-spacing: 2px;
+        }
+        @keyframes shine {
+            0% { background-position: 0% center; }
+            100% { background-position: 200% center; }
+        }
+        .tagline {
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: #ffd966;
+            background: rgba(0,0,0,0.5);
+            display: inline-block;
+            padding: 0.3rem 1.2rem;
+            border-radius: 60px;
+            margin-top: 8px;
+            backdrop-filter: blur(4px);
+            border-left: 3px solid #ffaa66;
+            border-right: 3px solid #ff66cc;
+        }
+
+        .bio {
+            margin: 25px 0 20px;
+            font-weight: 400;
+            color: #f5f0e0;
+            background: rgba(0,0,0,0.4);
+            padding: 12px 18px;
+            border-radius: 40px;
+            font-size: 1rem;
+            line-height: 1.5;
+            backdrop-filter: blur(4px);
+        }
+
+        .skills {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+            margin: 25px 0;
+        }
+        .skill-badge {
+            background: linear-gradient(145deg, #1f1b3c, #2a1e4a);
+            padding: 8px 22px;
+            border-radius: 50px;
+            font-weight: 600;
+            color: #FFE6B0;
+            box-shadow: 0 6px 0 #0a0520;
+            transition: all 0.2s;
+            border: 1px solid rgba(255,200,100,0.8);
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+        }
+        .skill-badge i {
+            margin-right: 8px;
+            color: #ffaa66;
+        }
+        .skill-badge:hover {
+            transform: scale(1.08);
+            background: linear-gradient(145deg, #ff4d6d, #b73e5c);
+            color: white;
+            box-shadow: 0 0 15px #ff6a88;
+            cursor: default;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin: 30px 0 20px;
+        }
+        .social-icon {
+            background: rgba(0,0,0,0.5);
+            width: 52px;
+            height: 52px;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: #fff0c0;
+            transition: 0.2s;
+            text-decoration: none;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255,200,100,0.6);
+        }
+        .social-icon:hover {
+            transform: translateY(-8px) rotate(5deg);
+            background: #ff4d6d;
+            color: white;
+            box-shadow: 0 0 20px #ff99cc;
+            border-color: #fff;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 15px;
+        }
+        .btn-glow {
+            background: linear-gradient(95deg, #ff4d6d, #ffae42);
+            padding: 12px 24px;
+            border: none;
+            border-radius: 60px;
+            font-weight: bold;
+            font-size: 1rem;
+            color: #140a1f;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: 0.2s;
+            box-shadow: 0 5px 0 #a13046;
+            font-family: 'Poppins', sans-serif;
+        }
+        .btn-glow i {
+            font-size: 1.2rem;
+        }
+        .btn-glow:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 #a13046;
+        }
+        .btn-glow:hover {
+            background: linear-gradient(95deg, #ff1f4a, #ff952b);
+            color: white;
+            box-shadow: 0 0 20px #ff884d;
+        }
+
+        .footer {
+            margin-top: 30px;
+            font-size: 0.7rem;
+            color: #f0c0a0;
+            opacity: 0.8;
+            border-top: 1px dashed rgba(255,200,150,0.5);
+            padding-top: 15px;
+        }
+
+        .cursor-effect {
+            position: fixed;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255,100,150,0.7), rgba(255,200,100,0));
+            pointer-events: none;
+            z-index: 9999;
+            transition: 0.07s linear;
+            mix-blend-mode: screen;
+        }
+    </style>
+</head>
+<body>
+    <div class="overlay"></div>
+    <div class="cursor-effect" id="cursorDot"></div>
+
+    <div class="card">
+        <div class="avatar">
+            <div class="avatar-inner"></div>
+        </div>
+        <h1>✦ Thanh ✦</h1>
+        <div class="tagline">
+            <i class="fas fa-meteor"></i> yêu mỗi Ngọc kit <i class="fas fa-sun"></i>
+        </div>
+        <div class="bio">
+            👺 tớ là thanh kit 👺<br>
+            💫 anh thích hút melon , bạc và xanh 😳
+        </div>
+        
+        <div class="skills">
+            <div class="skill-badge"><i class="fas fa-laptop-code"></i> Code & Chill</div>
+            <div class="skill-badge"><i class="fas fa-music"></i> Âm nhạc</div>
+            <div class="skill-badge"><i class="fas fa-dragon"></i> Anime</div>
+            <div class="skill-badge"><i class="fas fa-gamepad"></i> Game</div>
+            <div class="skill-badge"><i class="fas fa-camera"></i> Chụp ảnh</div>
+        </div>
+
+        <div class="social-links">
+            <a href="#" class="social-icon"><i class="fab fa-github-alt"></i></a>
+            <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="social-icon"><i class="fab fa-discord"></i></a>
+            <a href="https://www.tiktok.com/@hwk01201" target="_blank" class="social-icon"><i class="fab fa-tiktok"></i></a>
+            <a href="#" class="social-icon"><i class="fas fa-globe"></i></a>
+        </div>
+
+        <div class="btn-group">
+            <button class="btn-glow" id="surpriseBtn"><i class="fas fa-star"></i> Bất ngờ điều gì?</button>
+            <button class="btn-glow" id="contactBtn"><i class="fas fa-paper-plane"></i> Gửi lời chào</button>
+        </div>
+        <div class="footer">
+            ⚡ kit k12? ⚡
+        </div>
+    </div>
+
+    <script>
+        // ----- 1. NỀN ẢNH ANIME NGẪU NHIÊN -----
+        // Danh sách ảnh anime từ các nguồn miễn phí (dùng link trực tiếp)
+        const animeImages = [
+            "https://wallpapercave.com/wp/wp4985931.jpg",
+            "https://wallpapercave.com/wp/wp4966148.jpg",
+            "https://wallpapercave.com/wp/wp4966183.jpg",
+            "https://wallpapercave.com/wp/wp4966187.jpg",
+            "https://wallpapercave.com/wp/wp4966191.jpg",
+            "https://wallpapercave.com/wp/wp4966195.jpg",
+            "https://wallpapercave.com/wp/wp4966201.jpg",
+            "https://wallpapercave.com/wp/wp5003994.jpg",
+            "https://wallpapercave.com/wp/wp5003997.jpg",
+            "https://wallpapercave.com/wp/wp5004005.jpg"
+        ];
+        // Hoặc dùng API random ảnh anime nếu muốn, nhưng để ổn định dùng mảng có sẵn
+        // Nếu muốn random mỗi lần tải lại trang:
+        function setRandomAnimeBackground() {
+            const randomIndex = Math.floor(Math.random() * animeImages.length);
+            const imgUrl = animeImages[randomIndex];
+            document.body.style.backgroundImage = `url('${imgUrl}')`;
+            document.body.style.backgroundSize = "cover";
+            document.body.style.backgroundPosition = "center";
+            document.body.style.backgroundAttachment = "fixed";
+        }
+        setRandomAnimeBackground();
+
+        // Có thể thêm nút "Đổi nền" nếu muốn, nhưng không bắt buộc
+        // ----- 2. HIỆU ỨNG CHUỘT -----
+        const cursor = document.getElementById('cursorDot');
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = (e.clientX - 15) + 'px';
+            cursor.style.top = (e.clientY - 15) + 'px';
+        });
+
+        // ----- 3. NÚT BẤT NGỜ -----
+        const surpriseBtn = document.getElementById('surpriseBtn');
+        const messages = [
+            "🎉 Bùm! cái con mẹ mày! 🎉",
+            "🌸 ra cái này là m bị gay 🌸"
+        ];
+        surpriseBtn.addEventListener('click', () => {
+            const randomMsg = messages[Math.floor(Math.random() * messages.length)];
+            alert(randomMsg);
+            // Tạo hiệu ứng confetti đơn giản
+            const body = document.body;
+            const conf = document.createElement('div');
+            conf.innerText = '🎊✨💖🎉';
+            conf.style.position = 'fixed';
+            conf.style.bottom = '20px';
+            conf.style.right = '20px';
+            conf.style.fontSize = '2rem';
+            conf.style.background = '#ffccdd';
+            conf.style.padding = '8px 15px';
+            conf.style.borderRadius = '40px';
+            conf.style.zIndex = '9999';
+            conf.style.boxShadow = '0 0 20px gold';
+            body.appendChild(conf);
+            setTimeout(() => conf.remove(), 1500);
+        });
+
+        const contactBtn = document.getElementById('contactBtn');
+        contactBtn.addEventListener('click', () => {
+            alert(" thank bạn 😳");
+        });
+
+        // Đổi màu viền card
+        let hue = 0;
+        setInterval(() => {
+            hue = (hue + 2) % 360;
+            document.querySelector('.card').style.border = `1px solid hsl(${hue}, 80%, 65%)`;
+        }, 300);
+    </script>
+</body>
+  </html>
